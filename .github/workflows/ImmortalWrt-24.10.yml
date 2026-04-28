@@ -56,27 +56,26 @@ on:
         type: boolean
         required: true
         default: true
+      istore:
+        description: '集成iStore商店'
+        type: boolean
+        required: true
+        default: false
+      enable_openclash:
+        description: '集成openclash'
+        type: boolean
+        required: true
+        default: true
+      enable_wechatpush:
+        description: '集成wechatpush'
+        type: boolean
+        required: true
+        default: true
       ssh:
         description: 'SSH connection to Actions'
         type: boolean
         required: true
         default: false
-      # istore:
-      #   description: '集成iStore商店'
-      #   type: boolean
-      #   required: true
-      #   default: false
-      # enable_openclash:
-      #   description: '集成openclash'
-      #   type: boolean
-      #   required: true
-      #   default: true
-      # enable_wechatpush:
-      #   description: '集成wechatpush'
-      #   type: boolean
-      #   required: true
-      #   default: true
-
   schedule:
     - cron: '0 6 * * 1'
 
