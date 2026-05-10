@@ -430,23 +430,7 @@ jobs:
           echo 'src-git istore https://github.com/linkease/istore;main' >> feeds.conf.default
           ./scripts/feeds update istore
           ./scripts/feeds install -d y -p istore luci-app-store
-
-      - name: 加载配置
-        run: |
-          # 定义注入函数
-          inject_config() {
-            local file="$1"
-            [ ! -f "$file" ] && { echo ">>> 警告: 未找到配置文件 $file"; return; }
-            echo ">>> 正在从 $file 注入配置..."
-            while IFS= read -r line; do
-              [[ -z "$line" || "$line" =~ ^# ]] && continue
-              opt=$(echo "$line" | cut -d= -f1)
-              val=$(echo "$line" | cut -d= -f2)
-              sed -i "/^$opt=/d" .config
-              echo "$opt=$val" >> .config
-            done < "$file"
-          }
-
+          
           # 基础文件移动
           [ -e files ] && mv files openwrt/files
           [ -e config/$CONFIG_FILE ] && cp config/$CONFIG_FILE openwrt/.config
