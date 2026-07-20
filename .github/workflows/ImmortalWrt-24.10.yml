@@ -498,11 +498,11 @@ jobs:
         run: |
           cd $GITHUB_WORKSPACE/openwrt
           ls -l target/linux/mediatek/image
-          sed -i '/Device\/cmcc_rax3000m_common/,/endef/ s/IMAGE_SIZE := .*/IMAGE_SIZE := 59600m/' \
+          sed -i '/Device\/cmcc_rax3000m-emmc-mtk/,/endef/ s/IMAGE_SIZE := .*/IMAGE_SIZE := 59600m/' \
             target/linux/mediatek/image/filogic.mk
 
           echo "=== 修改后的配置 ==="
-          sed -n '/define Device\/cmcc_rax3000m_common/,/endef/p' \
+          sed -n '/define Device\/cmcc_rax3000m-emmc-mtk/,/endef/p' \
             target/linux/mediatek/image/filogic.mk
 
       - name: 启用 ccache
