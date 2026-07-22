@@ -30,16 +30,16 @@ on:
         default: false
       repo_url:
         description: '源仓库 URL'
-        default: 'https://github.com/padavanonly/immortalwrt-mt798x-6.6'
+        default: 'https://github.com/immortalwrt/immortalwrt'
         type: choice
         options:
-          - 'https://github.com/padavanonly/immortalwrt-mt798x-6.6'
+          - 'https://github.com/immortalwrt/immortalwrt'
       repo_branch:
         description: '源仓库分支'
-        default: 'openwrt-24.10-6.6'
+        default: 'openwrt-24.10'
         type: choice
         options:
-          - 'openwrt-24.10-6.6'
+          - 'openwrt-24.10'
       config_file:
         description: '配置文件'
         default: '24.10.config'
@@ -85,9 +85,9 @@ permissions:
   actions: write
 
 env:
-  DEVICE_MODEL: ${{ github.event.inputs.device_model || 'cmcc_rax3000m-emmc-mtk' }}
-  REPO_URL: ${{ github.event.inputs.repo_url || 'https://github.com/padavanonly/immortalwrt-mt798x-6.6' }}
-  REPO_BRANCH: ${{ github.event.inputs.repo_branch || 'openwrt-24.10-6.6' }}
+  DEVICE_MODEL: ${{ github.event.inputs.device_model || 'cmcc_rax3000m' }}
+  REPO_URL: ${{ github.event.inputs.repo_url || 'https://github.com/immortalwrt/immortalwrt' }}
+  REPO_BRANCH: ${{ github.event.inputs.repo_branch || 'openwrt-24.10' }}
   FEEDS_CONF: feeds.conf.default
   CONFIG_FILE: ${{ github.event.inputs.config_file || '24.10.config' }}
   DIY_P1_SH: scripts/24.10/diy-part1.sh
@@ -182,7 +182,7 @@ jobs:
     needs: check-source-updates
     if: github.event_name == 'workflow_dispatch' || github.event_name == 'push' || needs.check-source-updates.outputs.should_build == 'true'
     runs-on: ubuntu-22.04
-    name: 编译 ${{ github.event.inputs.device_model || 'cmcc_rax3000m-emmc-mtk' }}
+    name: 编译 ${{ github.event.inputs.device_model || 'cmcc_rax3000m' }}
     steps:
       - name: 调试信息
         run: |
@@ -498,11 +498,11 @@ jobs:
         run: |
           cd $GITHUB_WORKSPACE/openwrt
           ls -l target/linux/mediatek/image
-          sed -i '/Device\/cmcc_rax3000m-emmc-mtk/,/endef/ s/IMAGE_SIZE := .*/IMAGE_SIZE := 59600m/' \
+          sed -i '/Device\/cmcc_rax3000m_common/,/endef/ s/IMAGE_SIZE := .*/IMAGE_SIZE := 59600m/' \
             target/linux/mediatek/image/filogic.mk
 
           echo "=== 修改后的配置 ==="
-          sed -n '/define Device\/cmcc_rax3000m-emmc-mtk/,/endef/p' \
+          sed -n '/define Device\/cmcc_rax3000m_common/,/endef/p' \
             target/linux/mediatek/image/filogic.mk
 
       - name: 启用 ccache
