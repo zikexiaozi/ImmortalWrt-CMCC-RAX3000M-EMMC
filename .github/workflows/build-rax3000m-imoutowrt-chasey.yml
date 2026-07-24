@@ -42,7 +42,7 @@ env:
   REPO_BRANCH: 25.12
   FEEDS_CONF: feeds.conf.default
   CONFIG_FILE: rax3000m/immortalwrt-chasey/rax3000m-imoutowrt.config
-  DIY_P1_SH: diy-part1.sh
+  DIY_P1_SH: diy-yuan.sh
   DIY_P2_SH: rax3000m/immortalwrt-chasey/diy-part2-rax3000m.sh
   UPLOAD_BIN_DIR: false
   UPLOAD_FIRMWARE: true
