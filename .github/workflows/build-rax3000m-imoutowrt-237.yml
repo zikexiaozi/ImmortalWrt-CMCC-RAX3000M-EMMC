@@ -42,7 +42,7 @@ env:
   REPO_BRANCH: openwrt-24.10-6.6
   FEEDS_CONF: feeds.conf.default
   CONFIG_FILE: rax3000m/imoutowrt-237/rax3000m-imoutowrt.config
-  DIY_P1_SH: diy-part1.sh
+  DIY_P1_SH: diy-yuan.sh
   DIY_P2_SH: rax3000m/imoutowrt-237/diy-part2-rax3000m.sh
   UPLOAD_BIN_DIR: false
   UPLOAD_FIRMWARE: true
