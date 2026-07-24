@@ -1,0 +1,83 @@
+name: Check for Upstream Release
+
+on:
+  workflow_dispatch: # 允许你手动触发测试
+  schedule:
+     # 每小时检查一次
+     - cron: '0 8 * * *'
+
+# ‼️ 在这里填入上游仓库的 "所有者/仓库名"
+env:
+  UPSTREAM_REPO: "nikkinikki-org/OpenWrt-nikki" 
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    outputs:
+      run_job: ${{ steps.check_new.outputs.run_job }}
+      latest_tag: ${{ steps.vars.outputs.latest_tag }}
+
+    steps:
+      - name: 1. 获取上游最新的 Release 标签
+        id: get_latest
+        uses: octokit/request-action@v3.x
+        with:
+          route: GET /repos/${{ env.UPSTREAM_REPO }}/releases
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 2. 提取标签名
+        id: vars
+        run: echo "latest_tag=${{ fromJson(steps.get_latest.outputs.data)[0].tag_name }}" >> $GITHUB_OUTPUT
+
+      - name: 3. 恢复缓存的标签
+        id: cache-tag
+        uses: actions/cache/restore@v5
+        with:
+          path: ./.cache/latest_tag
+          key: upstream-tag-${{ steps.vars.outputs.latest_tag }}
+
+      - name: 4. 检查标签是否为新
+        id: check_new
+        run: |
+          if [ "${{ steps.cache-tag.outputs.cache-hit }}" == "true" ]; then
+            echo "标签 ${{ steps.vars.outputs.latest_tag }} 已经被处理过，跳过。"
+            echo "run_job=false" >> $GITHUB_OUTPUT
+          else
+            echo "检测到新标签 ${{ steps.vars.outputs.latest_tag }}，准备运行任务。"
+            echo "run_job=true" >> $GITHUB_OUTPUT
+          fi
+          
+      # --- 修正点在这里 (旧的步骤 5 被拆分) ---
+
+      - name: 5. (如果为新) 创建用于缓存的标记文件
+        # 仅在检测到新标签时运行
+        if: steps.check_new.outputs.run_job == 'true'
+        run: |
+          mkdir -p ./.cache
+          echo "${{ steps.vars.outputs.latest_tag }}" > ./.cache/latest_tag
+
+      - name: 6. (如果为新) 缓存新标签
+        # 仅在检测到新标签时运行
+        if: steps.check_new.outputs.run_job == 'true'
+        uses: actions/cache/save@v5
+        with:
+          path: ./.cache/latest_tag
+          key: upstream-tag-${{ steps.vars.outputs.latest_tag }}
+
+      - name: 7. Delete workflow runs
+        uses: Mattraks/delete-workflow-runs@main
+        with:
+          retain_days: 1
+          keep_minimum_runs: 3
+
+  # --- 这个 Job 负责调用你的目标 YML (这部分无需更改) ---
+  run-target-workflow:
+    needs: check
+    if: needs.check.outputs.run_job == 'true'
+    
+    # 假设你的目标 YML 叫 my-build.yml
+    uses: ./.github/workflows/build-rax3000m-imoutowrt-chasey.yml 
+    with:
+      upstream_tag: ${{ needs.check.outputs.latest_tag }}
+    secrets: inherit
