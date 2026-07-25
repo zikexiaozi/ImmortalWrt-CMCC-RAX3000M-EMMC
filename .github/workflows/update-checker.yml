@@ -24,7 +24,7 @@ jobs:
         with:
           route: GET /repos/${{ env.UPSTREAM_REPO }}/releases
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 
       - name: 2. 提取标签名
         id: vars
