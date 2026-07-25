@@ -97,7 +97,7 @@ env:
   UPLOAD_FIRMWARE: true
   UPLOAD_RELEASE: true
   TZ: Asia/Shanghai
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN  }}
+  GITHUB_TOKEN: ${{ secrets.GH_TOKEN  }}
   BUILD_COMMIT_MSGS_FILE: ''
   CHECKED_COMMIT_MSGS_FILE: ''
   ENABLE_KEEPALIVED: ${{ github.event.inputs.enable_keepalived || 'true' }}
@@ -891,7 +891,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         if: steps.tag.outputs.status == 'success'
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         with:
           tag_name: ${{ steps.tag.outputs.RELEASE_TAG }}
           body_path: release
@@ -942,7 +942,7 @@ jobs:
       - name: 删除指定缓存
         continue-on-error: true
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           echo "当前的缓存列表"
           gh cache list
@@ -986,7 +986,7 @@ jobs:
         if: steps.tag.outputs.status == 'success'
         continue-on-error: true
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           DEVICE_MODEL: ${{ env.DEVICE_MODEL }}
           CURRENT_RELEASE: ${{ steps.tag.outputs.RELEASE_TAG }}
         run: |
