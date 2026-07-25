@@ -8,7 +8,7 @@
 # Description: Build OpenWrt using GitHub Actions
 #
 
-name: Build RAX3000M ImmortalWrt (237-6.6)
+name: ImmortalWrt-padavanonly-24.10-237 (237-6.6)
 
 on:
   # 1. 允许被 update-checker.yml 调用 (这修复了上一个错误)
