@@ -73,7 +73,7 @@ jobs:
       - name: 删除指定缓存
         continue-on-error: true
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           echo "当前的缓存列表"
           gh cache list
