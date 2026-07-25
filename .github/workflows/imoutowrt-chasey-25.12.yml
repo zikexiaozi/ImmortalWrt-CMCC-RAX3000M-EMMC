@@ -8,7 +8,7 @@
 # Description: Build OpenWrt using GitHub Actions
 #
 
-name: Build RAX3000M ImmortalWrt (chasey-6.12)
+name: ImmortalWrtchasey-25.12 (chasey-6.12)
 
 on:
   # 1. 允许被 update-checker.yml 调用 (这修复了上一个错误)
