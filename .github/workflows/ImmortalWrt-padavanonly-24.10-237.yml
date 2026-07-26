@@ -234,13 +234,13 @@ jobs:
       run: |
         echo "release_tag=$(date +"%Y.%m.%d-%H%M-immortalwrt-6.6-cmcc_rax3000m")" >> $GITHUB_OUTPUT
         touch release.txt
-        echo "cmcc_rax3000m-6.6固件" >> release.txt
+        echo "路由器型号：cmcc_rax3000m-emmc" >> release.txt
         echo "后台：192.168.2.1" >> release.txt
         echo "账号：root" >> release.txt
         echo "密码：无" >> release.txt
         echo "默认主题：Argon" >> release.txt
         echo "集成插件：nikki wol samba4 upnp hd_idle argon_config" >> release.txt
-        echo "编译源码：[点此处查看](https://github.com/padavanonly/immortalwrt-mt798x-6.6)" >> release.txt
+        echo "编译源码：padavanonly/immortalwrt-mt798x-6.6 [点此处查看](https://github.com/padavanonly/immortalwrt-mt798x-6.6)" >> release.txt
         echo "status=success" >> $GITHUB_OUTPUT
 
     - name: Upload firmware to release
