@@ -494,17 +494,6 @@ jobs:
           # 禁用 Rust
           inject_config "$GITHUB_WORKSPACE/config/rust_disable.config"
 
-      - name: 分区表修改
-        run: |
-          cd $GITHUB_WORKSPACE/openwrt
-          ls -l target/linux/mediatek/image
-          sed -i '/Device\/bdy_g18-pro_common/,/endef/ s/IMAGE_SIZE := .*/IMAGE_SIZE := 59600m/' \
-            target/linux/mediatek/image/filogic.mk
-
-          echo "=== 修改后的配置 ==="
-          sed -n '/define Device\/bdy_g18-pro_common/,/endef/p' \
-            target/linux/mediatek/image/filogic.mk
-
       - name: 启用 ccache
         run: |
           cd "$GITHUB_WORKSPACE/openwrt"
